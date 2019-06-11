@@ -1,0 +1,48 @@
+name:                blog-server
+version:             1.0
+github:              "dbalseiro/compose"
+license:             BSD3
+author:              "Diego Balseiro"
+maintainer:          "dbalseiro@gmail.com"
+copyright:           "2019 Stack Builders"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+description:         Please see the README on GitHub at <https://github.com/dbalseiro/compose#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+  - aeson
+  - servant-server
+  - stm
+  - wai
+  - warp
+  - blog-types
+
+executables:
+  blog-server-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - blog-server
+
+tests:
+  blog-types-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - blog-server
