@@ -22,6 +22,7 @@
     "react-dom": "^16.8.6",
     "bs-fetch": "^0.4.0",
     "bs-aeson": "^3.1.0",
+    "bs-director": "^0.0.6",
     "reason-scripts": "1.0.0"
   },
   "devDependencies": {

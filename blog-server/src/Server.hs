@@ -1,12 +1,19 @@
-{-# LANGUAGE DataKinds       #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE TypeOperators   #-}
+{-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE TypeOperators     #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Server
     ( startApp
     , port
     ) where
 
+import Network.Wai.Middleware.Cors ( cors, simpleCorsResourcePolicy
+                                   , corsRequestHeaders
+                                   , corsOrigins
+                                   , corsMethods
+                                   )
+import Network.HTTP.Types.Method   (renderStdMethod)
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
@@ -23,8 +30,28 @@ type API = "articles" :> Get '[JSON] [EntityArticle]
 port :: Int
 port = 8080
 
+withCors :: Middleware
+withCors =
+  let allowedOrigins = [ "http://127.0.0.1:3000"
+                       , "http://127.0.0.1:3001"
+                       , "http://localhost:3000"
+                       , "http://localhost:3001"
+                       ]
+      allowedHeaders = [ "content-type"
+                       , "dnt"
+                       , "cache-control"
+                       , "expires"
+                       , "pragma"
+                       ]
+  in cors $ const $ Just simpleCorsResourcePolicy
+    { corsRequestHeaders = allowedHeaders
+    , corsOrigins        = Just (allowedOrigins, True)
+    -- allow all methods
+    , corsMethods        = fmap renderStdMethod [minBound..maxBound]
+    }
+
 startApp :: IO ()
-startApp = run port . app =<< newTVarIO defaultMockDB
+startApp = run port . withCors . app =<< newTVarIO defaultMockDB
 
 app :: TVar MockDB -> Application
 app = serve api . server

@@ -11,7 +11,7 @@
       "type": "dev"
     }
   ],
-  "bs-dependencies": ["reason-react", "bs-fetch", "bs-aeson"],
+  "bs-dependencies": ["reason-react", "bs-fetch", "bs-aeson", "bs-director"],
   "bs-dev-dependencies": ["@glennsl/bs-jest", "bs-aeson-spec"],
   "reason": {
     "react-jsx": 2

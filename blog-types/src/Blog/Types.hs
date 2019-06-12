@@ -66,5 +66,3 @@ instance FromJSON Article
 
 type EntityArticle = Entity ArticleId Article
 
-
-

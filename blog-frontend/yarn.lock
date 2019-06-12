@@ -1959,6 +1959,12 @@ bs-aeson@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/bs-aeson/-/bs-aeson-3.2.0.tgz#f96c4d1f93a4f1cc0e1842026fd0e1f994f2ce83"
 
+bs-director@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/bs-director/-/bs-director-0.0.6.tgz#b09f2243d1963242ee0a3ed7a5d8dd5886b37d6d"
+  dependencies:
+    director "^1.2.8"
+
 bs-fetch@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/bs-fetch/-/bs-fetch-0.3.1.tgz#9c7d074b27e6bb2b9f2ec985964f32bcac49f79e"
@@ -2953,6 +2959,10 @@ dir-glob@^2.0.0:
   resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
   dependencies:
     path-type "^3.0.0"
+
+director@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/director/-/director-1.2.8.tgz#c6d9b4dd890e9aff5365183fe9cc8e73994cf2d5"
 
 dns-equal@^1.0.0:
   version "1.0.0"
