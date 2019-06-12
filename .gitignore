@@ -21,3 +21,5 @@ cabal.project.local~
 .HTF/
 .ghc.environment.*
 *.cabal
+blog-frontend/src/Exported
+blog-frontend/__tests__/Exported

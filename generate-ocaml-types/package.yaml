@@ -1,0 +1,58 @@
+name:                generate-ocaml-types
+version:             0.1.0.0
+github:              "dbalseiro/generate-ocaml-types"
+license:             BSD3
+author:              "Diego Balseiro"
+maintainer:          "dbalseiro@gmail.com"
+copyright:           "MIT"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+- ocaml/*.ml
+- ocaml/*.mli
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/dbalseiro/generate-ocaml-types#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+  - blog-types
+  - ocaml-export
+  - quickcheck-arbitrary-adt
+  - quickcheck-instances
+  - QuickCheck
+  - containers
+
+executables:
+  generate-ocaml-types-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - generate-ocaml-types
+    - ocaml-export
+
+tests:
+  generate-ocaml-types-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - generate-ocaml-types

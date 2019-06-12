@@ -1,0 +1,8 @@
+resolver: lts-13.25
+
+packages:
+- .
+- ../blog-types
+
+extra-deps:
+- ocaml-export-0.13.0
