@@ -2,15 +2,10 @@
   "name": "blog-frontend",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "reason-scripts": "1.0.0"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -22,10 +17,17 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "bs-fetch": "^0.4.0",
+    "bs-aeson": "^3.1.0",
+    "reason-scripts": "1.0.0"
+  },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.4.8",
-    "bs-fetch": "^0.4.0",
     "bs-platform": "^5.0.4",
+    "bs-aeson-spec": "^2.2.0",
     "reason-react": "^0.7.0"
   }
 }

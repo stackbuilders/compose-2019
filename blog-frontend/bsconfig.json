@@ -1,7 +1,18 @@
 {
   "name": "reason-scripts",
-  "sources": ["src"],
-  "bs-dependencies": ["reason-react", "@glennsl/bs-jest", "bs-fetch"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    },
+    {
+      "dir": "__tests__",
+      "subdirs": true,
+      "type": "dev"
+    }
+  ],
+  "bs-dependencies": ["reason-react", "bs-fetch", "bs-aeson"],
+  "bs-dev-dependencies": ["@glennsl/bs-jest", "bs-aeson-spec"],
   "reason": {
     "react-jsx": 2
   },

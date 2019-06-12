@@ -4,7 +4,6 @@
 
 module Server
     ( startApp
-    , app
     , port
     ) where
 
@@ -19,15 +18,13 @@ import Entity.Find
 import MockDB
 
 type API = "articles" :> Get '[JSON] [EntityArticle]
-      :<|> "article" :> Capture "articleid" ArticleId :> Get '[JSON] (Maybe EntityArticle)
+      :<|> "article" :> Capture "articleid" ArticleId :> Get '[JSON] EntityArticle
 
 port :: Int
 port = 8080
 
 startApp :: IO ()
-startApp = do
-  tMockDB <- newTVarIO defaultMockDB
-  run port $ app tMockDB
+startApp = run port . app =<< newTVarIO defaultMockDB
 
 app :: TVar MockDB -> Application
 app = serve api . server
@@ -42,4 +39,7 @@ server :: TVar MockDB -> Server API
 server tMockDB = getArticleList :<|> getArticle
   where
     getArticleList = liftDB tMockDB >>= return . articles
-    getArticle aid = liftDB tMockDB >>= return . findEntity aid . articles
+    getArticle aid = liftDB tMockDB >>= foundOr404 . findEntity aid . articles
+
+foundOr404 :: Maybe a -> Handler a
+foundOr404 = maybe (throwError err404) return
