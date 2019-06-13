@@ -1,1 +1,0 @@
-# generate-ocaml-types
