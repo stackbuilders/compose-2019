@@ -1,7 +1,7 @@
 name: blog-types
 version: 0.1.0.0
 github: "stackbuilders/compose-2019"
-license: BSD3
+license: MIT
 author: "Diego Balseiro"
 maintainer: "dbalseiro@stackbuilders.com"
 copyright: "2019 Stack Builders"
