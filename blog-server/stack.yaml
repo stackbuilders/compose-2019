@@ -1,4 +1,0 @@
-resolver: lts-13.25
-packages:
-- .
-- ../blog-types

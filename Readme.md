@@ -22,13 +22,17 @@ You'll find four different projects in the repository root:
   types defined in `blog-types`
 - `blog-frontend`: The front end side of our blog written in [ReasonML](https://reasonml.github.io/)
 
-### Run the backend
-
-To start up the API server we just have to compile `blog-server` and run it
+In order to build everything, just do
 
 ```
-cd blog-server
 stack build
+```
+
+from the repo root folder.
+
+### Run the backend
+
+```
 stack exec blog-server-exe
 ```
 
@@ -41,11 +45,9 @@ default database.
 
 Before running the front-end server, we have to generate the OCaml types and the
 serialization tests. This project uses the [ocaml-export](https://github.com/plow-technologies/ocaml-export)
-library to make the Ocaml types. Run the following commands:
+library to make the Ocaml types. Run the following command:
 
 ```
-cd generate-ocaml-types
-stack build
 stack exec generate-ocaml-types-exe
 ```
 
@@ -62,7 +64,7 @@ cd blog-frontend
 yarn install
 yarn build
 yarn test  # These are the serialization tests that make sure our types match
-yarn start
+yarn start # starts the dev server
 ```
 
 And that's it. Now you should have a frontend in http://localhost:3000.
