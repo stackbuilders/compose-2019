@@ -1,4 +1,4 @@
-# TITLE TBD
+# Haskell + ReasonML Example
 
 ## Requirements
 
@@ -71,4 +71,4 @@ And that's it. Now you should have a frontend in http://localhost:3000.
 
 ## Contribute
 
-TODO: do it
+File an issue or make a PR in https://github.com/plow-technologies/ocaml-export, your contribution is welcomed!!
