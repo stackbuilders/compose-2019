@@ -6,3 +6,7 @@ type loadable('a) =
   | Loading;
 
 type entityArticle = entity(articleId, article);
+
+let unKey = (Key(k)) => k;
+
+let string_of_articleId = (ArticleId(key)) => key->unKey->string_of_int;

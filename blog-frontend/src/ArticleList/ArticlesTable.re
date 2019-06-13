@@ -16,7 +16,10 @@ let make = (~articles, _children) => {
       <div className="row" key="table">
         {articles
          |> List.map(article =>
-              <ArticleRow article key={article.entityKey |> string_of_int} />
+              <ArticleRow
+                article
+                key={article.entityKey |> Types.string_of_articleId}
+              />
             )
          |> Array.of_list
          |> ReasonReact.array}

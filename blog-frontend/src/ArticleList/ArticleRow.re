@@ -28,6 +28,7 @@ let make = (~article, _children) => {
           <a href={mkLink(article.entityKey)} className="btn btn-link">
             {ReasonReact.string("Read Article")}
           </a>
+          <i className="fas fa-chevron-right" />
         </div>
       </div>
     </div>,

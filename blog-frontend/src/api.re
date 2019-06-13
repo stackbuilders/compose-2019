@@ -3,6 +3,12 @@ let mkUrl = endpoint => {
   baseURL ++ endpoint;
 };
 
+let unexpectedResponse = response =>
+  Fetch.Response.text(response)
+  |> Js.Promise.(then_(text =>
+       Belt.Result.Error(text === "" ? "Unexpected error" : text) |> resolve
+     ));
+
 let makeGetRequest = () =>
   Fetch.RequestInit.make(
     ~method_=Bs_fetch.Get,
@@ -15,6 +21,17 @@ let makeGetRequest = () =>
     (),
   );
 
+let decodeArticleEntityList =
+  Aeson.Decode.(
+    wrapResult(
+      list(a =>
+        unwrapResult(
+          BlogTypes.(decodeEntity(decodeArticleId, decodeArticle, a)),
+        )
+      ),
+    )
+  );
+
 let getArticles:
   unit => Js.Promise.t(Belt.Result.t(list(Types.entityArticle), string)) =
   () =>
@@ -25,37 +42,38 @@ let getArticles:
            switch (Fetch.Response.status(response)) {
            | 200 =>
              Fetch.Response.json(response)
-             |> then_(json =>
-                  Aeson.Decode.(
-                    json
-                    |> wrapResult(
-                         list(a =>
-                           unwrapResult(
-                             BlogTypes.(
-                               decodeEntity(decodeArticleId, decodeArticle, a)
-                             ),
-                           )
-                         ),
-                       )
-                  )
-                  |> resolve
-                )
-           | _ =>
-             Fetch.Response.text(response)
-             |> then_(text =>
-                  resolve(
-                    Belt.Result.Error(
-                      text === "" ? "Unexpected error" : text,
-                    ),
-                  )
-                )
+             |> then_(json => decodeArticleEntityList(json) |> resolve)
+           | _ => unexpectedResponse(response)
            }
          )
        )
     |> Js.Promise.catch(_ =>
-         Js.Promise.resolve(
-           Belt.Result.Error(
-             "An error occured while fetching the Article List",
-           ),
+         Belt.Result.Error("An error occured while fetching the Article List")
+         |> Js.Promise.resolve
+       );
+
+let getArticle:
+  int => Js.Promise.t(Belt.Result.t(Types.entityArticle, string)) =
+  key =>
+    makeGetRequest()
+    |> Fetch.fetchWithInit(mkUrl({j|/article/$key|j}))
+    |> Js.Promise.(
+         then_(response =>
+           switch (Fetch.Response.status(response)) {
+           | 404 => Belt.Result.Error({j|Article $key not found|j}) |> resolve
+           | 200 =>
+             Fetch.Response.json(response)
+             |> then_(json =>
+                  BlogTypes.(
+                    decodeEntity(decodeArticleId, decodeArticle, json)
+                  )
+                  |> resolve
+                )
+           | _ => unexpectedResponse(response)
+           }
          )
+       )
+    |> Js.Promise.catch(_ =>
+         Belt.Result.Error({j|An error occured while fetching Article $key|j})
+         |> Js.Promise.resolve
        );

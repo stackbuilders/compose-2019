@@ -9,7 +9,11 @@ let renderForRoute = component =>
   ReactDOMRe.renderToElementWithId(component, "root");
 
 let router =
-  DirectorRe.makeRouter({"/": () => renderForRoute(<ArticleList />)});
+  DirectorRe.makeRouter({
+    "/": payload => <ArticleList.ArticleList payload /> |> renderForRoute,
+    "/article/:articleId": payload =>
+      <Article.Article payload key=payload /> |> renderForRoute,
+  });
 
 DirectorRe.init(router, "/");
 
