@@ -60,7 +60,7 @@ the API we builded before with the exact same types.
 ```
 cd blog-frontend
 yarn install
-yarn buil
+yarn build
 yarn test  # These are the serialization tests that make sure our types match
 yarn start
 ```
