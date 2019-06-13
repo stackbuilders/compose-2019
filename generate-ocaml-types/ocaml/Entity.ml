@@ -10,11 +10,11 @@ let encodeEntity encodeKey encodeValue entity =
     ]
 
 let decodeEntity decodeKey decodeValue json =
-  match Aeson.Decode.
-    { entityKey = field "key" (fun a -> unwrapResult (decodeKey a)) json
-    ; entityValue = field "value" (fun a -> unwrapResult (decodeValue a)) json
+  let unwrapped decoder = fun json -> Aeson.Decode.unwrapResult (decoder json)
+  in match Aeson.Decode.
+    { entityKey = field "key" (unwrapped decodeKey) json
+    ; entityValue = field "value" (unwrapped decodeValue) json
     }
   with
   | v -> Belt.Result.Ok v
   | exception Aeson.Decode.DecodeError message -> Belt.Result.Error ("decodeEntity: " ^ message)
-
