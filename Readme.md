@@ -37,9 +37,8 @@ stack exec blog-server-exe
 ```
 
 Now the server should be up and running in http://localhost:8080
-You can test the server is running with the following endpoint: http://
-localhost:8080/articles. It should return a json with all the articles in the
-default database.
+You can test the server is running with the following endpoint: http://localhost:8080/articles. 
+It should return a json with all the articles in the default database.
 
 ### Generate front-end types
 
