@@ -46,3 +46,7 @@ tests:
     source-dirs: test
     dependencies:
       - blog-server
+      - hspec
+      - hspec-wai
+      - hspec-wai-json
+      - stm

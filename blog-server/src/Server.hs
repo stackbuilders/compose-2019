@@ -6,6 +6,8 @@
 module Server
     ( startApp
     , port
+    , app
+    , newDB
     ) where
 
 import Network.Wai.Middleware.Cors ( cors, simpleCorsResourcePolicy
@@ -48,8 +50,11 @@ withCors =
     , corsMethods        = fmap renderStdMethod [minBound..maxBound]
     }
 
+newDB :: IO (TVar MockDB)
+newDB = newTVarIO defaultMockDB
+
 startApp :: IO ()
-startApp = run port . withCors . app =<< newTVarIO defaultMockDB
+startApp = run port . withCors . app =<< newDB
 
 app :: TVar MockDB -> Application
 app = serve api . server

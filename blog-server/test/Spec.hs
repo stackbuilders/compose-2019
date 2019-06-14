@@ -1,20 +1,44 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Main (main) where
 
-import Lib (app)
-import Test.Hspec
-import Test.Hspec.Wai
-import Test.Hspec.Wai.JSON
+module Main
+    ( main
+    )
+where
+
+import           Server                         ( app
+                                                , newDB
+                                                )
+import           MockDB                         ( MockDB )
+
+import           Test.Hspec
+import           Test.Hspec.Wai
+import           Test.Hspec.Wai.JSON
+import           Control.Concurrent.STM.TVar    ( TVar )
 
 main :: IO ()
-main = hspec spec
+main = do
+  db <- newDB
+  hspec $ spec db
 
-spec :: Spec
-spec = with (return app) $ do
-    describe "GET /users" $ do
-        it "responds with 200" $ do
-            get "/users" `shouldRespondWith` 200
-        it "responds with [User]" $ do
-            let users = "[{\"userId\":1,\"userFirstName\":\"Isaac\",\"userLastName\":\"Newton\"},{\"userId\":2,\"userFirstName\":\"Albert\",\"userLastName\":\"Einstein\"}]"
-            get "/users" `shouldRespondWith` users
+spec :: TVar MockDB -> Spec
+spec db = with (return $ app db) $ do
+  describe "GET /articles" $
+    it "responds with 200" $
+      get "/articles" `shouldRespondWith` 200
+
+  describe "GET /article" $ do
+    it "responds with an article" $
+      get "/article/1" `shouldRespondWith`
+        [json|{ 
+          value: { 
+            articleTitle    : "Matrix 1.0 and the Matrix.org Foundation",
+            articleAuthor   : "matrix.org",
+            articleContent  : "Lorem ipsum dolor"
+          },
+          key: 1
+        }|]
+
+    context "when the article does not exist" $
+      it "responds with 404" $
+        get "/article/12" `shouldRespondWith` 404
