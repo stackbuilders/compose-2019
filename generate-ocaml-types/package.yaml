@@ -23,24 +23,27 @@ description: Please see the README on GitHub at <https://github.com/stackbuilder
 dependencies:
   - base >= 4.7 && < 5
 
+ghc-options:
+  - -threaded
+  - -rtsopts
+  - -with-rtsopts=-N
+  - -Wall
+  - -Werror
+
 library:
   source-dirs: src
   dependencies:
     - blog-types
     - ocaml-export
     - quickcheck-arbitrary-adt
-    - quickcheck-instances
     - QuickCheck
+    - text
     - containers
 
 executables:
   generate-ocaml-types-exe:
     main: Main.hs
     source-dirs: app
-    ghc-options:
-      - -threaded
-      - -rtsopts
-      - -with-rtsopts=-N
     dependencies:
       - generate-ocaml-types
       - ocaml-export
@@ -49,9 +52,5 @@ tests:
   generate-ocaml-types-test:
     main: Spec.hs
     source-dirs: test
-    ghc-options:
-      - -threaded
-      - -rtsopts
-      - -with-rtsopts=-N
     dependencies:
       - generate-ocaml-types

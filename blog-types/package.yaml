@@ -26,6 +26,7 @@ ghc-options:
   - -rtsopts
   - -with-rtsopts=-N
   - -Wall
+  - -Werror
 
 library:
   source-dirs: src

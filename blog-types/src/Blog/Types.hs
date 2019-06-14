@@ -5,13 +5,14 @@
 
 module Blog.Types where
 
-import Data.Aeson
-import Data.Text
-import Data.Typeable (Typeable)
-import Web.HttpApiData
-import GHC.Generics (Generic)
+import           Data.Aeson
+import           Data.Text
+import           Data.Typeable                  ( Typeable )
+import           Numeric.Natural
+import           Web.HttpApiData
+import           GHC.Generics                   ( Generic )
 
-newtype Key = Key Int
+newtype Key = Key Natural
   deriving (Eq, Ord, Generic)
 
 instance ToJSON Key
@@ -32,14 +33,11 @@ data Entity a b where
 deriving instance (Typeable a, Typeable b) => Typeable (Entity a b)
 
 instance (ToJSON a, ToJSON b) => ToJSON (Entity a b) where
-  toJSON (Entity a b) = object
-    [ "key"   .= a
-    , "value" .= b
-    ]
+  toJSON (Entity a b) = object ["key" .= a, "value" .= b]
 
 instance (IsKey a, FromJSON a, FromJSON b) => FromJSON (Entity a b) where
-  parseJSON = withObject "Entity" $ \o ->
-    Entity <$> o .: "key" <*> o .: "value"
+  parseJSON =
+    withObject "Entity" $ \o -> Entity <$> o .: "key" <*> o .: "value"
 
 newtype ArticleId = ArticleId Key
   deriving (Eq, Ord, Generic)
