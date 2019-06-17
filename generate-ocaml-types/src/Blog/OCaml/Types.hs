@@ -12,7 +12,6 @@ import           Test.QuickCheck.Arbitrary.ADT
 import           Blog.Types
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as T
-import           Numeric.Natural                ( Natural )
 
 type BlogOCamlPackage
   = OCamlPackage
@@ -36,10 +35,6 @@ type BlogOCamlPackage
 -- Text orphan instance
 instance Arbitrary Text where
   arbitrary = T.pack <$> listOf (elements [' ' .. 'z'])
-
--- Natural orphan instance
-instance Arbitrary Natural where
-  arbitrary = fromIntegral <$> (arbitrary :: Gen Int) `suchThat` (>= 0)
 
 instance Arbitrary Key where
   arbitrary = Key <$> arbitrary

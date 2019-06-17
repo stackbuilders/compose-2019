@@ -8,11 +8,10 @@ module Blog.Types where
 import           Data.Aeson
 import           Data.Text
 import           Data.Typeable                  ( Typeable )
-import           Numeric.Natural
 import           Web.HttpApiData
 import           GHC.Generics                   ( Generic )
 
-newtype Key = Key Natural
+newtype Key = Key Int
   deriving (Eq, Ord, Generic)
 
 instance ToJSON Key
