@@ -12,7 +12,7 @@ import           Web.HttpApiData
 import           GHC.Generics                   ( Generic )
 
 newtype Key = Key Int
-  deriving (Eq, Ord, Generic)
+  deriving (Eq, Ord, Show, Generic)
 
 instance ToJSON Key
 instance FromJSON Key
@@ -30,6 +30,10 @@ data Entity a b where
     } -> Entity a b
 
 deriving instance (Typeable a, Typeable b) => Typeable (Entity a b)
+deriving instance (Show a, Show b) => Show (Entity a b)
+
+instance (Eq a) => Eq (Entity a b) where
+  (Entity key1 _) == (Entity key2 _) = key1 == key2
 
 instance (ToJSON a, ToJSON b) => ToJSON (Entity a b) where
   toJSON (Entity a b) = object ["key" .= a, "value" .= b]
@@ -39,7 +43,7 @@ instance (IsKey a, FromJSON a, FromJSON b) => FromJSON (Entity a b) where
     withObject "Entity" $ \o -> Entity <$> o .: "key" <*> o .: "value"
 
 newtype ArticleId = ArticleId Key
-  deriving (Eq, Ord, Generic)
+  deriving (Eq, Ord, Show, Generic)
 
 instance ToJSON ArticleId
 instance FromJSON ArticleId
@@ -56,7 +60,7 @@ data Article = Article
   , articleAuthor  :: Text
   , articleContent :: Text
   }
-  deriving (Eq, Ord, Generic)
+  deriving (Eq, Ord, Show, Generic)
 
 instance ToJSON Article
 instance FromJSON Article
