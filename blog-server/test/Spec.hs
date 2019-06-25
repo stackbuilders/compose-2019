@@ -26,7 +26,11 @@ spec db = with (return $ app db) $ do
     it "responds with 200" $
       get "/articles" `shouldRespondWith` 200
 
-  describe "GET /article" $
+  describe "GET /article" $ do
+    context "when the article does exist" $
+      it "responds with 200" $
+        get "/article/1" `shouldRespondWith` 200
+
     context "when the article does not exist" $
       it "responds with 404" $
         get "/article/12" `shouldRespondWith` 404
